@@ -30,6 +30,21 @@ public class TheaterEntity {
 	@Column(name="manager_contact")
 	private String managerContact;
 		
+	public TheaterEntity() {
+		super();
+	}
+	
+	public TheaterEntity(Integer theaterId, String theaterName, Integer movieId, String theaterCity, String managerName,
+			String managerContact) {
+		super();
+		this.theaterId = theaterId;
+		this.theaterName = theaterName;
+		this.movieId = movieId;
+		this.theaterCity = theaterCity;
+		this.managerName = managerName;
+		this.managerContact = managerContact;
+	}
+
 	public Integer getTheaterId() {
 		return theaterId;
 	}

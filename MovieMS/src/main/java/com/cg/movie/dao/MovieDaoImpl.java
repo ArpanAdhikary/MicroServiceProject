@@ -22,36 +22,43 @@ public class MovieDaoImpl implements MovieDao {
 	@Autowired
 	MovieRepository repository;
 	
+		// Function to fetch record from database with the help of id 
+		@Override
 		public Movie getMovie(Integer movieId){
 		MovieEntity ce = new MovieEntity();
 		Optional<MovieEntity> movieEntity = repository.findById(movieId);
 		ce=movieEntity.get();
 				movie.setMovieId(ce.getMovieId());
+				movie.setReleaseDate(ce.getReleaseDate());
 				movie.setMovieName(ce.getMovieName());
 				movie.setMovieDirector(ce.getMovieDirector());
 				movie.setMovieGenre(ce.getMovieGenre());
 				movie.setMovieLength(ce.getMovieLength());
-				movie.setReleaseDate(ce.getReleaseDate());
 				movie.setLanguage(ce.getLanguage());
 				return movie;
 	}
+		
+		/* Fetching a list of movie using movie name*/
+		@Override
 		public List<Movie> getMovieByMovieName(String movieName){
 			List<Movie> movieList=new ArrayList<>();
 		List<MovieEntity> movieEntity = repository.findAll();
 		for(MovieEntity ce:movieEntity) {
 			    if((ce.getMovieName()).equals(movieName)) {
 				movie.setMovieId(ce.getMovieId());
+				movie.setReleaseDate(ce.getReleaseDate());
 				movie.setMovieName(ce.getMovieName());
 				movie.setMovieDirector(ce.getMovieDirector());
 				movie.setMovieGenre(ce.getMovieGenre());
 				movie.setMovieLength(ce.getMovieLength());
-				movie.setReleaseDate(ce.getReleaseDate());
 				movie.setLanguage(ce.getLanguage());
 				movieList.add(movie);
 			    }
 		}
 		return movieList;
 	}
+		
+		/* Deleting certain record from database using id*/
 		@Override
 		public Boolean deleteMovie(Integer movieId) {
 			if(repository.existsById(movieId)) {
@@ -61,6 +68,8 @@ public class MovieDaoImpl implements MovieDao {
 			else
 				return false;
 		}
+		
+		/* Updating details of movie for a specific movie id*/
 		@Override
 		public Boolean updateMovie(Integer movieId, MovieEntity movie) {
 			Optional<MovieEntity> check = repository.findById(movieId);
@@ -74,6 +83,8 @@ public class MovieDaoImpl implements MovieDao {
 				return false;
 			}
 		}
+		
+		/* Adding new movie in the database*/
 		@Override
 		public Boolean addMovie(MovieEntity movies) {
 			
@@ -84,18 +95,16 @@ public class MovieDaoImpl implements MovieDao {
 			else {
 				MovieEntity movie=new MovieEntity();
 				Integer id = movies.getMovieId();
-				id=id-1;
-				String[] arr = new String[1];
-				//for(String lang:movies.getLanguage()) {
-					 movie.setMovieId(id+1);
+				
+					 movie.setMovieId(id);
 					 movie.setMovieName(movies.getMovieName());
 					 movie.setMovieLength(movies.getMovieLength());
-					 //arr[0]=lang;
+					 movie.setReleaseDate(movies.getReleaseDate());
 					 movie.setLanguage(movies.getLanguage());
 					 movie.setMovieGenre(movies.getMovieGenre());
 					 movie.setMovieDirector(movies.getMovieDirector());
 					 repository.saveAndFlush(movie);
-					//}
+					
 			return true;
 			}	
 		}

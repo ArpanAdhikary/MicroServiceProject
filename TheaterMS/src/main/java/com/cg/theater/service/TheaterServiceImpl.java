@@ -68,7 +68,7 @@ public class TheaterServiceImpl implements TheaterService {
 	@Override
 	public Boolean addTheater(TheaterEntity theater) {
 		if(validateTheater(theater.getTheaterId())) {
-		logger.info("Updation of Theater will take place");
+		logger.info("Addition of Theater will take place");
 		result=dao.addTheater(theater);
 		return result;
 	}

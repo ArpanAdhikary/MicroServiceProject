@@ -19,7 +19,7 @@ public class Movie {
 	private Integer movieLength;
 	private String movieGenre;
 	private String movieDirector;
-	private Date releaseDate;
+	private String releaseDate;
 	private String language;
 	
 	public Integer getMovieId() {
@@ -53,10 +53,10 @@ public class Movie {
 		this.movieDirector = movieDirector;
 	}
 	
-	public Date getReleaseDate() {
+	public String getReleaseDate() {
 		return releaseDate;
 	}
-	public void setReleaseDate(Date releaseDate) {
+	public void setReleaseDate(String releaseDate) {
 		this.releaseDate = releaseDate;
 	}
 	public String getLanguage() {

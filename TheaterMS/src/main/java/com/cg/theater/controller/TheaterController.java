@@ -1,6 +1,7 @@
 package com.cg.theater.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 //import javax.validation.Valid;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.cg.theater.dao.TheaterDao;
 import com.cg.theater.dto.TheaterEntity;
+import com.cg.theater.dto.TheaterRepository;
 import com.cg.theater.model.Theater;
 import com.cg.theater.service.TheaterService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -25,6 +28,8 @@ import com.netflix.ribbon.proxy.annotation.Hystrix;
 @RestController
 public class TheaterController {
 
+	@Autowired
+	TheaterRepository repo;
 	@Autowired
 	TheaterService service;
 	
@@ -35,28 +40,43 @@ public class TheaterController {
 		}
 		else
 		{
-			return "Updation Failure";
+			return "Updation Failure, theater Id not found or theater Id doesnot match the format";
 		}
 	}
 	@DeleteMapping("/theater/delete/{id}")
 	public ResponseEntity<String> deleteTheater(@PathVariable(value="id") Integer theaterId) {
-		 if(service.deleteTheater(theaterId)) {
+		if(theaterId==null||theaterId==0)
+			return ResponseEntity.ok("Movie Id should be entered"); 
+		if(service.deleteTheater(theaterId)) {
 			 return ResponseEntity.ok("Theater Deleted Successful");
 		 }
 		 else {
-			 return ResponseEntity.ok("Theater Deletion Unsuccessful");
+			 return ResponseEntity.ok("Theater Deletion Unsuccessful, Theater Id doesnot exist or format not matched");
 		 }
 	}
 	@GetMapping("/theaters/{id}")
 	public Theater getTheater(@PathVariable(value="id") Integer theaterId) {
 		//System.out.println("Entered value"+movieId);
+		if(theaterId==null||theaterId==0)
+			return new Theater(0, "Theater Id should not be null or zero", theaterId, null, null, null); 
+		if(repo.existsById(theaterId)==false)
+			return new Theater(0,"Theater Id doesnot exist",  theaterId, null, null, null);
+	
 		return service.getTheater(theaterId); 
 	}
 	
 	@GetMapping("/theater/{theaterCity}")
 	public List<Theater> getTheaterByTheaterCity(@PathVariable(value="theaterCity") String theaterCity) {
-		System.out.println("asdfg");
-		return service.getTheaterByTheaterCity(theaterCity); 
+		//System.out.println("asdfg");
+		List<Theater> list =new ArrayList<>();
+		list=service.getTheaterByTheaterCity(theaterCity);
+		if(list.size()==0) {
+			Theater mv =new Theater(0,"Theater City doesnot exist",  0, null, null, null);
+			list.add(mv);
+			return list;
+		}
+		return list;	
+		//return service.getTheaterByTheaterCity(theaterCity); 
 	}
 	@HystrixCommand(fallbackMethod = "fallbacked")
 	@PostMapping("/theater")
@@ -67,7 +87,7 @@ public class TheaterController {
 		}
 		else
 		{
-			return "Theater Id not found or matched , Theater addition unsuccessful";
+			return "Theater Id not found or format not matched , Theater addition unsuccessful";
 		}
 	}
 	public String fallbacked(@RequestBody TheaterEntity theater) {

@@ -1,5 +1,6 @@
 package com.cg.movie.dto;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -12,28 +13,48 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+/* Movie Entity class for mapping with the table moviedb in database*/
 @Entity
 @Table(name="moviedb")
 public class MovieEntity {
 	
-	@Id
+	
+	@Id											/* @Id annotation for identification of primary key*/
 	@Column(name="movie_id")
 	private Integer movieId;
+	@Temporal(TemporalType.DATE)
+	@Column(name="release_date")
+	private Date releaseDate;
 	@Column(name="movie_name")
 	private String movieName;
+	
 	@Column(name="movie_length")
 	private Integer movieLength;
 	@Column(name="movie_genre")
 	private String movieGenre;
 	@Column(name="movie_director")
 	private String movieDirector;
-	@Column(name="release_date")
-	@Temporal(TemporalType.DATE)
-	private Date releaseDate;
 	@Column(name="language")
 	private String language;
 
 	
+	public MovieEntity() {
+		super();
+	}
+	
+	
+	public MovieEntity(Integer movieId, String movieName, Integer movieLength, String movieGenre, String movieDirector,
+			Date localDate, String language) {
+		super();
+		this.movieId = movieId;
+		this.releaseDate = localDate;
+		this.movieName = movieName;
+		this.movieLength = movieLength;
+		this.movieGenre = movieGenre;
+		this.movieDirector = movieDirector;
+		this.language = language;
+	}
+
 	public Date getReleaseDate() {
 		return releaseDate;
 	}
@@ -82,7 +103,6 @@ public class MovieEntity {
 				+ ", movieGenre=" + movieGenre + ", movieDirector=" + movieDirector + ", releaseDate=" + releaseDate
 				+ ", language=" + language + "]";
 	}
-	
 }
 	
 			

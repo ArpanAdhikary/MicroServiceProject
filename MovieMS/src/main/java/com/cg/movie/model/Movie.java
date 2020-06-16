@@ -1,5 +1,6 @@
 package com.cg.movie.model;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -16,11 +17,19 @@ public class Movie {
 	
 	private Integer movieId;
 	private String movieName;
+	private Date releaseDate;
 	private Integer movieLength;
 	private String movieGenre;
 	private String movieDirector;
-	private Date releaseDate;
+	
 	private String language;
+	
+	public Date getReleaseDate() {
+		return releaseDate;
+	}
+	public void setReleaseDate(Date releaseDate) {
+		this.releaseDate = releaseDate;
+	}
 	
 	public Integer getMovieId() {
 		return movieId;
@@ -53,17 +62,26 @@ public class Movie {
 		this.movieDirector = movieDirector;
 	}
 	
-	public Date getReleaseDate() {
-		return releaseDate;
-	}
-	public void setReleaseDate(Date releaseDate) {
-		this.releaseDate = releaseDate;
-	}
 	public String getLanguage() {
 		return language;
 	}
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+	
+	public Movie(Integer movieId, String movieName, Date releaseDate, Integer movieLength, String movieGenre,
+			String movieDirector, String language) {
+		super();
+		this.movieId = movieId;
+		this.movieName = movieName;
+		this.releaseDate = releaseDate;
+		this.movieLength = movieLength;
+		this.movieGenre = movieGenre;
+		this.movieDirector = movieDirector;
+		this.language = language;
+	}
+	public Movie() {
+		super();
 	}
 	@Override
 	public String toString() {

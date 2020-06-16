@@ -28,16 +28,16 @@ public class MovieEntity {
 	@Column(name="movie_director")
 	private String movieDirector;
 	@Column(name="release_date")
-	@Temporal(TemporalType.DATE)
-	private Date releaseDate;
+	//@Temporal(TemporalType.DATE)
+	private String releaseDate;
 	@Column(name="language")
 	private String language;
 
 	
-	public Date getReleaseDate() {
+	public String getReleaseDate() {
 		return releaseDate;
 	}
-	public void setReleaseDate(Date releaseDate) {
+	public void setReleaseDate(String releaseDate) {
 		this.releaseDate = releaseDate;
 	}
 	public Integer getMovieId() {
